@@ -17,7 +17,7 @@ st.write("Soy ARIEL®, tu asistente para la redacción inteligente de escritos l
 
 # api_key = st.text_input("Enter your OpenAI API key:", type="password")
 
-api_key = "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"
+api_key = "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"
 
 # models = ["gpt-3.5-turbo", "gpt-4"]
 # model = st.selectbox("Select a model:", models)
