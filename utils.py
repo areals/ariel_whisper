@@ -5,7 +5,7 @@ import os
 import streamlit as st
 
 # Create a function to transcribe audio using Whisper
-def transcribe_audio(api_key, audio_file):
+def transcribe_audio(api_key, audio_file, language="es"):
     openai.api_key = api_key
     with BytesIO(audio_file.read()) as audio_bytes:
         # Get the extension of the uploaded file
@@ -17,7 +17,7 @@ def transcribe_audio(api_key, audio_file):
             temp_audio_file.seek(0)  # Move the file pointer to the beginning of the file
             
             # Transcribe the temporary audio file
-            transcript = openai.Audio.translate("whisper-1", temp_audio_file)
+            transcript = openai.Audio.transcribe("whisper-1", temp_audio_file, language=language)
 
     return transcript
 
@@ -57,7 +57,7 @@ def call_gpt_streaming(api_key,prompt, model):
 # Create a function to summarize the transcript using a custom prompt
 def summarize_transcript(api_key, transcript, model, custom_prompt=None):
     openai.api_key = api_key
-    prompt = f"Please summarize the following audio transcription: {transcript}"
+    prompt = f"Please summarize the following audio transcription in Spanish: {transcript}"
     if custom_prompt:
         prompt = f"{custom_prompt}\n\n{transcript}"
     
