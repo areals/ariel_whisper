@@ -3,6 +3,8 @@ from utils import transcribe_audio, summarize_transcript
 import theme
 import os
 
+st.write(os.environ["api_key"] == st.secrets["api_key"],)
+
 # Streamlit
 st.set_page_config(**theme.page_config)
 
@@ -12,7 +14,7 @@ title = """
 st.markdown(title, unsafe_allow_html=True)
 st.write("Soy ARIEL®, tu asistente para la redacción inteligente de escritos legales. En este módulo, utilizo inteligencia artificial con tecnología de procesamiento natural del lenguaje para transcribir, organizar y resumir tus archivos de audio a texto. Reconozco la mayoría de los formatos usuales (.mp4, .mp4, .m4a, etc.).\n\n Intentaré ser lo más fiel posible al contenido original. Sin embargo, si no entiendo lo que se dice, usaré el contexto para dar sentido a la transcripción. \n\n Recuerda: estoy en fase de entrenamiento, así que siempre revisa el producto final y contrástalo con el audio que has cargado.\n")
 
-api_key = os.getenv('API_KEY')
+
 
 model = "gpt-4"
 
