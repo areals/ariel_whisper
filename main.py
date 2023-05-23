@@ -3,7 +3,7 @@ from utils import transcribe_audio, summarize_transcript
 import theme
 import os
 
-st.write(os.environ["api_key"] == st.secrets["api_key"],)
+api_key = os.getenv('api_key')
 
 # Streamlit
 st.set_page_config(**theme.page_config)
