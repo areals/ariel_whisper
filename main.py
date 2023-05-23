@@ -15,9 +15,6 @@ title = """
 st.markdown(title, unsafe_allow_html=True)
 st.write("Soy ARIEL®, tu asistente para la redacción inteligente de escritos legales. En este módulo, utilizo inteligencia artificial con tecnología de procesamiento natural del lenguaje para transcribir, organizar y resumir tus archivos de audio a texto. Reconozco la mayoría de los formatos usuales (.mp4, .mp4, .m4a, etc.).\n\n Intentaré ser lo más fiel posible al contenido original. Sin embargo, si no entiendo lo que se dice, usaré el contexto para dar sentido a la transcripción. \n\n Recuerda: estoy en fase de entrenamiento, así que siempre revisa el producto final y contrástalo con el audio que has cargado.\n")
 
-
-api_key = "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"
-
 model = "gpt-4"
 
 uploaded_audio = st.file_uploader("Selecciona un archivo:", type=['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'], accept_multiple_files=False)
