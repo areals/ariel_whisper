@@ -1,11 +1,10 @@
 import streamlit as st
 from utils import transcribe_audio, summarize_transcript
 import theme
-import streamlit as st
+import os
 
-# Everything is accessible via the st.secrets dict:
 
-st.write("api_key", st.secrets["api_key"])
+os.environ.get('api_key')
 
 # Streamlit
 st.set_page_config(**theme.page_config)
