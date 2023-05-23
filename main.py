@@ -8,6 +8,7 @@ import theme
 # Streamlit
 st.set_page_config(**theme.page_config)
 
+api_key={api_key}
 
 title = """
     <h1 style="color:#2B2B2B; font-family:sans-serif;">ARIEL® Whisper V.1)</h1>
