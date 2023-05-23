@@ -10,7 +10,7 @@ st.set_page_config(**theme.page_config)
 
 
 title = """
-    <h1 style="color:#2B2B2B; font-family:sans-serif;">Ariel Whisper (Prueba AR v1)</h1>
+    <h1 style="color:#2B2B2B; font-family:sans-serif;">ARIEL® Whisper V.1)</h1>
 """
 st.markdown(title, unsafe_allow_html=True)
 st.write("Soy ARIEL®, tu asistente para la redacción inteligente de escritos legales. En este módulo, utilizo inteligencia artificial con tecnología de procesamiento natural del lenguaje para transcribir, organizar y resumir tus archivos de audio a texto. Reconozco la mayoría de los formatos usuales (.mp4, .mp4, .m4a, etc.).\n\n Intentaré ser lo más fiel posible al contenido original. Sin embargo, si no entiendo lo que se dice, usaré el contexto para dar sentido a la transcripción. \n\n Recuerda: estoy en fase de entrenamiento, así que siempre revisa el producto final y contrástalo con el audio que has cargado.\n")
