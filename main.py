@@ -22,7 +22,7 @@ uploaded_audio = st.file_uploader("Selecciona un archivo:", type=['m4a', 'mp3', 
 
 custom_prompt = None
 
-custom_prompt = st.text_input("Configura el resultado, si así lo deseas:", value = "Has un resumen basado en la siguiente transcripción")
+custom_prompt = st.text_input("Configura el resultado, si así lo deseas:", value = "Haz un resumen basado en la siguiente transcripción")
 
 if st.button("Empezar"):
     if uploaded_audio:
