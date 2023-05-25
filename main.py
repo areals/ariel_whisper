@@ -27,8 +27,10 @@ custom_prompt = st.text_input("Configura el resultado, si así lo deseas:", valu
 if st.button("Empezar"):
     if uploaded_audio:
         if api_key:
-            st.markdown("Transcribiendo el audio...")
+            transcribing_message = st.empty()
+            transcribing_message.markdown("Transcribiendo el audio...")
             transcript = transcribe_audio(api_key, uploaded_audio)
+            transcribing_message.empty()
             st.markdown(f"###  Trascripción:\n\n<details><summary>Click to view</summary><p><pre><code>{transcript.text}</code></pre></p></details>", unsafe_allow_html=True)
 
             processing_message = st.empty()
