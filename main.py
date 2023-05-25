@@ -31,7 +31,8 @@ if st.button("Empezar"):
             transcribing_message.markdown("Transcribiendo el audio...")
             transcript = transcribe_audio(api_key, uploaded_audio)
             transcribing_message.empty()
-            st.markdown(f"###  Trascripción:\n\n<details><summary>Click to view</summary><p><pre><code>{transcript.text}</code></pre></p></details>", unsafe_allow_html=True)
+            st.markdown("###  Transcripción:")
+            st.text_area("Transcripción completa", value=transcript.text, height=200)
 
             processing_message = st.empty()
             processing_message.markdown("Procesando la transcripción...")
