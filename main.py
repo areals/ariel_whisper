@@ -36,25 +36,20 @@ if st.button("Empezar"):
 
             processing_message = st.empty()
             processing_message.markdown("Procesando la transcripción...")
-            
-            # Si se ha proporcionado un prompt, aplicarlo a la transcripción
             if custom_prompt:
-                # Aquí es donde debes aplicar el prompt a la transcripción
-                # Tendrás que escribir la lógica de esta parte por ti mismo
-                processed_transcript = apply_prompt(transcript, custom_prompt)
+                summary = summarize_transcript(api_key, transcript, model, custom_prompt)
             else:
-                processed_transcript = transcript
-            
+                summary = summarize_transcript(api_key, transcript, model)  
             st.markdown(f"### Versión procesada:")
-            st.text_area("Versión procesada completa", value=processed_transcript, height=400, max_chars=1000000)
+            st.text_area("Versión procesada completa", value=summary, height=400, max_chars=1000000)
 
             # Botón de descarga
             st.download_button(
                 label="Descargar versión procesada",
-                data=processed_transcript,
+                data=summary,
                 file_name="version_procesada.txt",
                 mime="text/plain",
             )
             processing_message.empty()
         else:
-            st.error("Por favor, introduce una clave de API válida para OpenAI.")
+            st.error("Please enter a valid OpenAI API key.")
