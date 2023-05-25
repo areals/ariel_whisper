@@ -41,7 +41,7 @@ if st.button("Empezar"):
             else:
                 summary = summarize_transcript(api_key, transcript, model)  
             st.markdown(f"### Versión procesada:")
-            st.text_area("Versión procesada completa", value=summary, height=400)
+            st.text_area("Versión procesada completa", value=summary, height=400, max_chars=1000000)
 
             # Botón de descarga
             st.download_button(
