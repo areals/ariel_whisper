@@ -42,9 +42,6 @@ if st.button("Empezar"):
             st.markdown(f"### Versión procesada:")
             st.write(summary)
 
-            st.markdown("### Versión procesada:")
-            st.write(summary)
-
             # Botón de descarga
             st.download_button(
                 label="Descargar versión procesada",
