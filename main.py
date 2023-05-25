@@ -1,12 +1,7 @@
 import streamlit as st
-from utils import transcribe_audio
+from utils import transcribe_audio, summarize_transcript
 import theme
 import os
-
-def apply_prompt(transcript, custom_prompt):
-    paragraphs = transcript.split('\n')
-    processed_paragraphs = [custom_prompt + ' ' + paragraph for paragraph in paragraphs]
-    return '\n'.join(processed_paragraphs)
 
 api_key = os.getenv('api_key')
 
@@ -19,7 +14,13 @@ title = """
 st.markdown(title, unsafe_allow_html=True)
 st.write("Soy ARIEL®, tu asistente para la redacción inteligente de escritos legales. En este módulo, utilizo inteligencia artificial con tecnología de procesamiento natural del lenguaje para transcribir, organizar y resumir tus archivos de audio a texto. Reconozco la mayoría de los formatos usuales (.mp4, .mp4, .m4a, etc.).\n\n Intentaré ser lo más fiel posible al contenido original. Sin embargo, si no entiendo lo que se dice, usaré el contexto para dar sentido a la transcripción. \n\n Recuerda: estoy en fase de entrenamiento, así que siempre revisa el producto final y contrástalo con el audio que has cargado.\n")
 
+
+
+model = "gpt-4"
+
 uploaded_audio = st.file_uploader("Selecciona un archivo:", type=['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'], accept_multiple_files=False)
+
+custom_prompt = None
 
 custom_prompt = st.text_input("Configura el resultado, si así lo deseas:", value = "Añade puntuación y mayúsculas. Por cada cambio de interlocutor, inicia un nuevo párrafo con un guión.")
 
@@ -35,22 +36,20 @@ if st.button("Empezar"):
 
             processing_message = st.empty()
             processing_message.markdown("Procesando la transcripción...")
-            
             if custom_prompt:
-                processed_transcript = apply_prompt(transcript.text, custom_prompt)
+                summary = summarize_transcript(api_key, transcript, model, custom_prompt)
             else:
-                processed_transcript = transcript.text
-            
+                summary = summarize_transcript(api_key, transcript, model)  
             st.markdown(f"### Versión procesada:")
-            st.text_area("Versión procesada completa", value=processed_transcript, height=400, max_chars=1000000)
+            st.text_area("Versión procesada completa", value=summary, height=400, max_chars=1000000)
 
             # Botón de descarga
             st.download_button(
                 label="Descargar versión procesada",
-                data=processed_transcript,
+                data=summary,
                 file_name="version_procesada.txt",
                 mime="text/plain",
             )
             processing_message.empty()
         else:
-            st.error("Por favor, introduce una clave de API válida para OpenAI.")
+            st.error("Please enter a valid OpenAI API key.")
