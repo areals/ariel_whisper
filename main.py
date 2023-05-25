@@ -22,7 +22,7 @@ uploaded_audio = st.file_uploader("Selecciona un archivo:", type=['m4a', 'mp3', 
 
 custom_prompt = None
 
-custom_prompt = st.text_input("Configura el resultado, si así lo deseas:", value = "Añade puntuación y mayúsculas. Por cada cambio de interlocutor, inicia un nuevo párrafo con un guión")
+custom_prompt = st.text_input("Configura el resultado, si así lo deseas:", value = "Añade puntuación y mayúsculas. Por cada cambio de interlocutor, inicia un nuevo párrafo con un guión.")
 
 if st.button("Empezar"):
     if uploaded_audio:
@@ -41,6 +41,17 @@ if st.button("Empezar"):
                 summary = summarize_transcript(api_key, transcript, model)  
             st.markdown(f"### Versión procesada:")
             st.write(summary)
+
+            st.markdown("### Versión procesada:")
+            st.write(summary)
+
+            # Botón de descarga
+            st.download_button(
+                label="Descargar versión procesada",
+                data=summary,
+                file_name="version_procesada.txt",
+                mime="text/plain",
+            )
             processing_message.empty()
         else:
             st.error("Please enter a valid OpenAI API key.")
