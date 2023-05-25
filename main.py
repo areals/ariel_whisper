@@ -31,13 +31,14 @@ if st.button("Empezar"):
             transcript = transcribe_audio(api_key, uploaded_audio)
             st.markdown(f"###  Trascripción:\n\n<details><summary>Click to view</summary><p><pre><code>{transcript.text}</code></pre></p></details>", unsafe_allow_html=True)
 
-            st.markdown("Procesando la transcripción...")
+            processing_message = st.empty()
+            processing_message.markdown("Procesando la transcripción...")
             if custom_prompt:
                 summary = summarize_transcript(api_key, transcript, model, custom_prompt)
             else:
-                summary = summarize_transcript(api_key, transcript, model)
-                
+                summary = summarize_transcript(api_key, transcript, model)  
             st.markdown(f"### Versión procesada:")
             st.write(summary)
+            processing_message.empty()
         else:
             st.error("Please enter a valid OpenAI API key.")
