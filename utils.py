@@ -6,28 +6,29 @@ import streamlit as st
 
 # Create a function to transcribe audio using Whisper
 def transcribe_audio(api_key, audio_file, language="es"):
-        from pydub import AudioSegment
+    from pydub import AudioSegment
 
-        openai.api_key = api_key
-        file_extension = os.path.splitext(audio_file.name)[-1].lstrip('.')
-        audio_data = AudioSegment.from_file(audio_file, format=file_extension)
+    openai.api_key = api_key
+    file_extension = os.path.splitext(audio_file.name)[-1].lstrip('.')
+    audio_data = AudioSegment.from_file(audio_file, format=file_extension)
 
-        # Divide el audio en segmentos de 5 minutos (o 300.000 milisegundos)
-        segments = [audio_data[i:i + 300000] for i in range(0, len(audio_data), 300000)]
+    # Divide el audio en segmentos de 5 minutos (o 300.000 milisegundos)
+    segments = [audio_data[i:i + 300000] for i in range(0, len(audio_data), 300000)]
 
-        transcript = ''
+    transcript = ''
 
-        for i, segment in enumerate(segments):
-            with BytesIO() as audio_bytes:
-                segment.export(audio_bytes, format=file_extension)
-                audio_bytes.seek(0)  # Move the file pointer to the beginning of the file
+    for i, segment in enumerate(segments):
+        with tempfile.NamedTemporaryFile(suffix=f'.{file_extension}') as segment_file:
+            segment.export(segment_file.name, format=file_extension)
 
-                # Transcribe the temporary audio file
+            # Transcribe the temporary audio file
+            with open(segment_file.name, "rb") as audio_bytes:
                 segment_transcript = openai.Audio.transcribe("whisper-1", audio_bytes, language=language)
 
             transcript += segment_transcript
 
-        return transcript
+    return transcript
+
 
 def call_gpt(api_key, prompt, model):
     openai.api_key = api_key
