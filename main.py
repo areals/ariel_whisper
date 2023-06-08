@@ -22,26 +22,23 @@ uploaded_audio = st.file_uploader("Selecciona un archivo:", type=['m4a', 'mp3', 
 
 custom_prompt = None
 
-custom_prompt = st.text_input("Configura el resultado, si así lo deseas:", value = "Añade puntuación y mayúsculas. Por cada cambio de interlocutor, inicia un nuevo párrafo con un guión.")
+custom_prompt = st.text_input("Configura el resultado, si así lo deseas:", value = "Haz un resumen basado en la siguiente transcripción")
 
 if st.button("Empezar"):
     if uploaded_audio:
         if api_key:
-            transcribing_message = st.empty()
-            transcribing_message.markdown("Transcribiendo el audio...")
+            st.markdown("Transcribiendo el audio...")
             transcript = transcribe_audio(api_key, uploaded_audio)
-            transcribing_message.empty()
-            st.markdown("###  Transcripción:")
-            st.text_area("Transcripción completa", value=transcript.text, height=200)
+            st.markdown(f"###  Trascripción:\n\n<details><summary>Click to view</summary><p><pre><code>{transcript.text}</code></pre></p></details>", unsafe_allow_html=True)
 
-            processing_message = st.empty()
-            processing_message.markdown("Procesando la transcripción...")
+            st.markdown("Procesando la transcripción...")
             if custom_prompt:
                 summary = summarize_transcript(api_key, transcript, model, custom_prompt)
             else:
-                summary = summarize_transcript(api_key, transcript, model)  
+                summary = summarize_transcript(api_key, transcript, model)
+                
             st.markdown(f"### Versión procesada:")
-            st.text_area("Versión procesada completa", value=summary, height=400)
+            st.text_area("Versión procesada completa", value=summary, height=400, max_chars=1000000)
 
             # Botón de descarga
             st.download_button(
