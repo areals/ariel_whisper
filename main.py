@@ -16,7 +16,7 @@ st.write("Soy ARIEL®, tu asistente para la redacción inteligente de escritos l
 
 
 
-model = "gpt-3.5-turbo-16k"
+model = "gpt-4"
 
 uploaded_audio = st.file_uploader("Selecciona un archivo:", type=['m4a', 'mp3', 'webm', 'mp4', 'mpga', 'wav', 'mpeg'], accept_multiple_files=False)
 
