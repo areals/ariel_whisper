@@ -1,12 +1,17 @@
+import openai
+import os
+import tempfile
+from io import BytesIO
+from pydub import AudioSegment
 import streamlit as st
 from utils import split_audio_file, transcribe_audio, summarize_transcript
 import theme
-import os
 
 def install_ffmpeg():
-    if os.system("ffmpeg --version") != 0:
+    if os.system("ffmpeg -version") != 0 or os.system("ffprobe -version") != 0:
         os.system("apt update")
         os.system("apt install ffmpeg -y")
+        os.system("apt install ffprobe -y")
 
 install_ffmpeg()
 
