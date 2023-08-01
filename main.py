@@ -3,6 +3,13 @@ from utils import split_audio_file, transcribe_audio, summarize_transcript
 import theme
 import os
 
+def install_ffmpeg():
+    if os.system("ffmpeg --version") != 0:
+        os.system("apt update")
+        os.system("apt install ffmpeg -y")
+
+install_ffmpeg()
+
 api_key = os.getenv('api_key')
 
 # Streamlit
