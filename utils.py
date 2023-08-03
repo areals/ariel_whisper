@@ -1,17 +1,26 @@
 import openai
-import os
-import tempfile
 from io import BytesIO
-from pydub import AudioSegment
+import tempfile
+import os
+import streamlit as st
 
 # Create a function to transcribe audio using Whisper
 def transcribe_audio(api_key, audio_file, language="es"):
     openai.api_key = api_key
-
-    # Transcribe the audio file
-    transcript = openai.Audio.transcribe("whisper-1", audio_file, language=language)
+    with BytesIO(audio_file.read()) as audio_bytes:
+        # Get the extension of the uploaded file
+        file_extension = os.path.splitext(audio_file.name)[-1]
+        
+        # Create a temporary file with the uploaded audio data and the correct extension
+        with tempfile.NamedTemporaryFile(delete=False, suffix=file_extension) as temp_audio_file:
+            temp_audio_file.write(audio_bytes.read())
+            temp_audio_file.seek(0)  # Move the file pointer to the beginning of the file
+            
+            # Transcribe the temporary audio file
+            transcript = openai.Audio.transcribe("whisper-1", temp_audio_file, language=language)
 
     return transcript
+
 
 # Create a function to summarize the transcript using a custom prompt
 def summarize_transcript(api_key, transcript, model, custom_prompt=None):
@@ -19,6 +28,7 @@ def summarize_transcript(api_key, transcript, model, custom_prompt=None):
     prompt = f"Please summarize the following audio transcription in Spanish: {transcript}"
     if custom_prompt:
         prompt = f"{custom_prompt}\n\n{transcript}"
+    
 
     response = openai.ChatCompletion.create(
         model=model,
@@ -26,21 +36,6 @@ def summarize_transcript(api_key, transcript, model, custom_prompt=None):
         temperature=0.5,
         max_tokens=150,
     )
-
+    
     summary = response['choices'][0]['message']['content']
     return summary
-
-# Create a function to split an audio file using PyDub
-def split_audio_file(audio_file, chunk_size=10*60*1000):  # 10 minutes in milliseconds
-    with BytesIO(audio_file.read()) as audio_bytes:
-        audio = AudioSegment.from_file(audio_bytes)
-        chunks = [chunk for chunk in audio[::chunk_size]]
-    
-    # Create temporary files for each audio chunk
-    temp_files = []
-    for i, chunk in enumerate(chunks):
-        temp_file = tempfile.NamedTemporaryFile(delete=False)
-        chunk.export(temp_file.name, format='mp3')
-        temp_files.append(temp_file)
-    
-    return temp_files
