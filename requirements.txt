@@ -54,4 +54,3 @@ yarl==1.9.2
 zipp==3.15.0
 librosa==0.8.1
 soundfile==0.10.3.post1
-pydub==0.25.1
